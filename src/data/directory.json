@@ -1,0 +1,115 @@
+{
+  "cdn_url": "https://pmtiles.blob.core.windows.net/virgilxw/",
+  "local_url": "./pmtiles/",
+  "cities": [{
+    "city_name": "Glasgow",
+    "datasets": {
+      "Ordnance Survey Generated Morphometrics (Buildings)": {
+        "subUrl": "Glasgow_OS.pmtiles",
+        "layer_name": "Glasgow_OS",
+        "dendogram": "Glasgow_OS.jpg",
+        "style": [
+          "step",
+          ["get", "cluster"],
+          "rgb(44,127,184)",
+          1, "rgb(153,52,4)",
+          2, "rgb(120,198,121)",
+          3, "rgb(173,221,142)",
+          4, "rgb(65,182,196)",
+          5, "rgb(166,189,219)",
+          6, "rgb(0,104,55)",
+          7, "rgb(115,115,115)",
+          8, "rgb(254,196,79)",
+          9, "rgb(189,189,189)",
+          10, "rgb(254,227,145)",
+          11, "rgb(217,217,217)",
+          12, "rgb(220,100,110)"
+        ]
+      }, "Ordnance Survey Generated Morphometrics (Tessellations)": {
+        "subUrl": "Glasgow_OS_tess.pmtiles",
+        "layer_name": "Glasgow_OS_tess",
+        "dendogram": "Glasgow_OS.jpg",
+        "style": [
+          "step",
+          ["get", "cluster"],
+          "rgb(44,127,184)",
+          1, "rgb(153,52,4)",
+          2, "rgb(120,198,121)",
+          3, "rgb(173,221,142)",
+          4, "rgb(65,182,196)",
+          5, "rgb(166,189,219)",
+          6, "rgb(0,104,55)",
+          7, "rgb(115,115,115)",
+          8, "rgb(254,196,79)",
+          9, "rgb(189,189,189)",
+          10, "rgb(254,227,145)",
+          11, "rgb(217,217,217)",
+          12, "rgb(220,100,110)"
+        ]
+      },
+      "Aggregated Morphometrics (cells)": {
+        "subUrl": "Glasgow_grid.pmtiles",
+        "layer_name": "Glasgow_grid",
+        "dendogram": "Glasgow_Grid",
+        "style": [
+          "step",
+          ["get", "cluster"],
+          "rgb(44,127,184)",
+          1, "rgb(65,182,196)",
+          2, "rgb(254,153,41)",
+          3, "rgb(137,82,200)",
+          4, "rgb(173,221,142)",
+          5, "rgb(89,189,189)",
+          6, "rgb(117,107,177)",
+          7, "rgb(158,154,200)",
+          8, "rgb(116,238,152)",
+          9, "rgb(99,99,99)",
+          10, "rgb(153,52,4)",
+          11, "rgb(120,198,121)",
+          12, "rgb(122,1,119)",
+          13, "rgb(82,209,237)"
+        ]
+      },
+      "Aggregated Morphometrics (buildings)": {
+        "subUrl": "Glasgow_grid_raw_buildings.pmtiles",
+        "layer_name": "Glasgow_grid_raw_buildings",
+        "dendogram": "Glasgow_Grid",
+        "style": [
+          "step",
+          ["get", "cluster"],
+          "rgb(44,127,184)",
+          1, "rgb(65,182,196)",
+          2, "rgb(254,153,41)",
+          3, "rgb(137,82,200)",
+          4, "rgb(173,221,142)",
+          5, "rgb(89,189,189)",
+          6, "rgb(117,107,177)",
+          7, "rgb(158,154,200)",
+          8, "rgb(116,238,152)",
+          9, "rgb(99,99,99)",
+          10, "rgb(153,52,4)",
+          11, "rgb(120,198,121)",
+          12, "rgb(122,1,119)",
+          13, "rgb(82,209,237)"
+        ]
+      }
+    },
+    "coat_of_arms_url": "./city_coat_of_arms/Glasgow_coat_of_arms.svg"
+  }, {
+    "city_name": "test",
+    "datasets": {
+      "Ordnance Survey Generated Morphometrics": {
+        "subUrl": "Glasgow_OS.pmtiles",
+        "layer_name": "Glasgow_OS"
+      },
+      "Aggregated Morphometrics (cells)": {
+        "subUrl": "Glasgow_grid.pmtiles",
+        "layer_name": "Glasgow_grid"
+      },
+      "Aggregated Morphometrics (buildings)": {
+        "subUrl": "Glasgow_grid_raw_buildings.pmtiles",
+        "layer_name": "Glasgow_grid_raw_buildings"
+      }
+    }
+  }]
+}
