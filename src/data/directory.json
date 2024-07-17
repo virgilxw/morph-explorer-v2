@@ -48,7 +48,7 @@
                     ]
                 },
                 "Traditional Morphometrics Model (Tesselation)": {
-                    "subUrl": "Glasgow_tradModel_buildings.pmtiles",
+                    "subUrl": "Glasgow_tradModel_tess.pmtiles",
                     "layer_name": "tradModel_tess_converted",
                     "dendogram": "glasgow_trad.png",
                     "style": [
@@ -150,7 +150,7 @@
                     ]
                 },
                 "Cellular Model (buildings)": {
-                    "subUrl": "Glasgow_tradModel_buildings.pmtiles",
+                    "subUrl": "Glasgow_cellModel_buildings.pmtiles",
                     "layer_name": "tradModel_buildings_converted",
                     "dendogram": "Glasgow_cell.png",
                     "style": [
@@ -258,7 +258,7 @@
                     ]
                 },
                 "Traditional Morphometrics Model (Tesselation)": {
-                    "subUrl": "Amsterdam_tradModel_buildings.pmtiles",
+                    "subUrl": "Amsterdam_tradModel_tess.pmtiles",
                     "layer_name": "tradModel_tess_converted",
                     "dendogram": "Amsterdam_trad.png",
                     "style": [
@@ -468,7 +468,7 @@
                     ]
                 },
                 "Traditional Morphometrics Model (Tesselation)": {
-                    "subUrl": "London_tradModel_buildings.pmtiles",
+                    "subUrl": "London_tradModel_tess.pmtiles",
                     "layer_name": "tradModel_tess_converted",
                     "dendogram": "London_trad.png",
                     "style": [
@@ -570,7 +570,7 @@
                     ]
                 },
                 "Cellular Model (buildings)": {
-                    "subUrl": "London_tradModel_buildings.pmtiles",
+                    "subUrl": "London_cellModel_buildings.pmtiles",
                     "layer_name": "tradModel_buildings_converted",
                     "dendogram": "London_cell.png",
                     "style": [
@@ -629,10 +629,6 @@
                         24,
                         "rgb(217,217,217)"
                     ]
-                },
-                "Experimental Model with Blocks in variables": {
-                    "subUrl": "Glasgow_cellModel_blocks_cell.pmtiles",
-                    "layer_name": "cellModel_blocks_cell_converted"
                 }
             }
         }
