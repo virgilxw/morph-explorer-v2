@@ -12,14 +12,38 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
-import InfoIcon from '@mui/icons-material/Info';
+import InfoIcon from "@mui/icons-material/Info";
+import { Card, CardContent, Typography, Container } from "@mui/material";
+
+// PlaceholderCard component
+const PlaceholderCard = () => (
+  <Card className="w-full mb-4">
+    {" "}
+    {/* Full-width and bottom margin */}
+    <CardContent>
+      <Typography variant="h5" component="div">
+        Placeholder Title
+      </Typography>
+      <Typography variant="body2">
+        Placeholder content. Lorem ipsum dolor sit amet, consectetur adipiscing
+        elit.
+      </Typography>
+    </CardContent>
+  </Card>
+);
 
 const LeftSidebar = ({ isVisible, toggleVisibility }) => {
   const { selectedCity, setSelectedCity } = useContext(selectedCityContext);
 
   const [checked, setChecked] = React.useState([0]);
-  
-  const layerList = ["Buildings", "Tessellated Cell", "Block", "Street Nodes", "Street Edges"]
+
+  const layerList = [
+    "Buildings",
+    "Tessellated Cell",
+    "Block",
+    "Street Nodes",
+    "Street Edges",
+  ];
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -44,7 +68,7 @@ const LeftSidebar = ({ isVisible, toggleVisibility }) => {
       >
         {/* Divided sections */}
         <div className="flex flex-col flex-grow flex flex-col gap-y-4">
-          <div className="flex-grow p-2 gap-y-3">
+          <div className="flex-grow p-2 flex flex-col gap-y-4">
             <p>{selectedCity} currently has these available models:</p>
             <Box
               sx={{ minWidth: 80 }}
@@ -84,7 +108,11 @@ const LeftSidebar = ({ isVisible, toggleVisibility }) => {
                   <ListItem
                     key={value}
                     secondaryAction={
-                      <IconButton edge="end" aria-label="comments" color="secondary">
+                      <IconButton
+                        edge="end"
+                        aria-label="comments"
+                        color="secondary"
+                      >
                         <InfoIcon />
                       </IconButton>
                     }
@@ -107,7 +135,7 @@ const LeftSidebar = ({ isVisible, toggleVisibility }) => {
                         />
                       </ListItemIcon>
                       <ListItemText
-                        primaryTypographyProps={{fontSize: '12px'}} 
+                        primaryTypographyProps={{ fontSize: "12px" }}
                         id={labelId}
                         primary={`${value}`}
                       />
@@ -117,7 +145,20 @@ const LeftSidebar = ({ isVisible, toggleVisibility }) => {
               })}
             </List>
           </div>
-          <div className="flex-grow p-2">Section 3</div>
+          <div className="flex-grow p-2 max-h-72">
+            <p>Comments:</p>
+            <div className="overflow-y-auto max-h-full">
+              {" "}
+              {/* Scrollable and limited height */}
+              {[...Array(10)].map((_, index) => (
+                <div key={index} className="w-full mb-4">
+                  {" "}
+                  {/* Ensure full width and space between cards */}
+                  <PlaceholderCard />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </aside>
 
