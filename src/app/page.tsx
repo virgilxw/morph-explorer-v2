@@ -4,23 +4,24 @@ import React from 'react';
 import Map from '../components/map.jsx';
 import Navbar from '../components/navbar.jsx';
 import { useState, useEffect } from "react";
-import selectedCityContext from '../contexts/selectedCityContext.jsx'
-import selectedLayerContext from '../contexts/selectedLayerContext.jsx'
-import selectedDendogramContext from '../contexts/selectedDendogramContext.jsx'
-import legendContext from '../contexts/legendContext.jsx'
+import selectedCityContext from '../contexts/selectedCityContext.jsx';
+import selectedLayerContext from '../contexts/selectedLayerContext.jsx';
+import selectedDendogramContext from '../contexts/selectedDendogramContext.jsx';
+import legendContext from '../contexts/legendContext.jsx';
 import TooSmall from '../components/tooSmall.jsx';
-
-
+import LeftSidebar from '../components/LeftSidebar.jsx';
+import RightSidebar from '../components/RightSidebar.jsx';
+import "./globals.css";
 
 const Page = () => {
-
   const [selectedLayer, setSelectedLayer] = useState(null);
   const [selectedDendogram, setSelectedDendogram] = useState(null);
   const [selectedCity, setSelectedCity] = useState("Glasgow");
   const [legend, setLegend] = useState(null);
-
-
   const [isViewportSmall, setIsViewportSmall] = useState(false);
+
+  const [isLeftSidebarVisible, setIsLeftSidebarVisible] = useState(true);
+  const [isRightSidebarVisible, setIsRightSidebarVisible] = useState(true);
 
   useEffect(() => {
     const handleResize = () => {
@@ -45,7 +46,19 @@ const Page = () => {
           <legendContext.Provider value={{ legend, setLegend }}>
             <main className="flex flex-col min-h-screen">
               <Navbar />
-              <Map />
+              <div className="flex flex-1">
+                <LeftSidebar
+                  isVisible={isLeftSidebarVisible}
+                  toggleVisibility={() => setIsLeftSidebarVisible(!isLeftSidebarVisible)}
+                />
+                <div className="flex-1">
+                  <Map />
+                </div>
+                <RightSidebar
+                  isVisible={isRightSidebarVisible}
+                  toggleVisibility={() => setIsRightSidebarVisible(!isRightSidebarVisible)}
+                />
+              </div>
             </main>
           </legendContext.Provider>
         </selectedDendogramContext.Provider>

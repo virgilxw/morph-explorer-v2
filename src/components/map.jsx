@@ -4,7 +4,6 @@ import React, { useRef, useEffect, useState, useContext } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { Protocol } from "pmtiles";
-import Sidebar from "./sidebar/mapSidebar.jsx";
 import "./map.css";
 import selectedCityContext from "../contexts/selectedCityContext.jsx";
 import selectedLayerContext from "../contexts/selectedLayerContext.jsx";
@@ -159,7 +158,6 @@ export default function Map() {
         className="map ma absolute w-full top-20"
         style={{ height: mapHeight }}
       />
-      <Sidebar mapHeight={mapHeight} />
     </div>
   );
 }
