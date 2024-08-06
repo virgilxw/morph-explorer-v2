@@ -19,13 +19,12 @@ export default function Map() {
   const [zoom] = useState(14);
   const [API_KEY] = useState(process.env.NEXT_PUBLIC_MAPTILER_API_KEY);
   const { legend, setLegend } = useContext(legendContext);
-  const { selectedCity, setSelectedCity } = useContext(selectedCityContext);
+  const { selectedCity, setSelectedCity, dataset, setDataset } = useContext(selectedCityContext);
   const { selectedLayer, setSelectedLayer } = useContext(selectedLayerContext);
   const { selectedDendogram, setSelectedDendogram } = useContext(
     selectedDendogramContext
   );
 
-  const [dataset, setDataset] = useState(null);
   const [dataSource, setDataSource] = useState(directory.cdn_url);
   const [activeLayer, setActiveLayer] = useState(null);
 
@@ -75,6 +74,8 @@ export default function Map() {
         selectedLayer.anchorKey == null
           ? selectedLayer.keys().next().value
           : selectedLayer.anchorKey;
+
+      console.log(selectedLayer);
 
       const PMTILES_URL = dataSource + dataset[subUrl]["subUrl"];
       const layerName = dataset[subUrl]["layer_name"];

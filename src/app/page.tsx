@@ -19,6 +19,7 @@ const Page = () => {
   const [selectedCity, setSelectedCity] = useState("Glasgow");
   const [legend, setLegend] = useState(null);
   const [isViewportSmall, setIsViewportSmall] = useState(false);
+  const [dataset, setDataset] = useState({});
 
   const [isLeftSidebarVisible, setIsLeftSidebarVisible] = useState(true);
   const [isRightSidebarVisible, setIsRightSidebarVisible] = useState(true);
@@ -40,7 +41,7 @@ const Page = () => {
   }
 
   return (
-    <selectedCityContext.Provider value={{ selectedCity, setSelectedCity }}>
+    <selectedCityContext.Provider value={{ selectedCity, setSelectedCity, dataset, setDataset }}>
       <selectedLayerContext.Provider value={{ selectedLayer, setSelectedLayer }}>
         <selectedDendogramContext.Provider value={{ selectedDendogram, setSelectedDendogram }}>
           <legendContext.Provider value={{ legend, setLegend }}>
