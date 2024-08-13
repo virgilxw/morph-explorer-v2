@@ -1,5 +1,6 @@
 import selectedCityContext from "../../contexts/selectedCityContext.jsx";
-import { useContext, useState } from "react";
+import selectedLayerContext from "../../contexts/selectedLayerContext.jsx";
+import { useContext, useState, useEffect } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -10,16 +11,32 @@ import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
 
 export default function LaterSelectModule() {
-  const { selectedCity, setSelectedCity } = useContext(selectedCityContext);
+  const { selectedCity, setSelectedCity, dataset, setDataset } =
+    useContext(selectedCityContext);
+  const { selectedLayer, setSelectedLayer } = useContext(selectedLayerContext);
+  const [layerList, setlayerList] = useState([]);
 
-  const layerList = [
-    "Buildings",
-    "Tessellated Cell",
-    "Block",
-    "Street Nodes",
-    "Street Edges",
-    "Comments"
-  ];
+  useEffect(() => {
+    if (!dataset || !selectedLayer) return;
+    let subUrl =
+        selectedLayer.anchorKey == null
+          ? selectedLayer.keys().next().value
+          : selectedLayer.anchorKey;
+
+    if (!dataset[subUrl]) return;
+    setlayerList(Object.keys(dataset[subUrl]["layers"]));
+
+  }, [dataset, selectedLayer]);
+
+  // const layerList = [
+  //   "Points (for Clusters)",
+  //   "Buildings",
+  //   "Tessellated Cell",
+  //   "Block",
+  //   "Street Nodes",
+  //   "Street Edges",
+  //   "Comments",
+  // ];
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -63,7 +80,7 @@ export default function LaterSelectModule() {
                   <Checkbox
                     edge="start"
                     checked={checked.indexOf(value) !== -1}
-                    tabIndex={-1} 
+                    tabIndex={-1}
                     disableRipple
                     inputProps={{ "aria-labelledby": labelId }}
                   />

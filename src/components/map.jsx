@@ -7,7 +7,7 @@ import { Protocol } from "pmtiles";
 import "./map.css";
 import selectedCityContext from "../contexts/selectedCityContext.jsx";
 import selectedLayerContext from "../contexts/selectedLayerContext.jsx";
-import directory from "../data/directory.json";
+import directory from "../data/directory_v2.json";
 import legendContext from "../contexts/legendContext.jsx";
 import selectedDendogramContext from "@/contexts/selectedDendogramContext.jsx";
 
