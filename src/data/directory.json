@@ -6,8 +6,50 @@
             "city_name": "Glasgow",
             "coat_of_arms_url": "./city_coat_of_arms/Glasgow_coat_of_arms.svg",
             "datasets": {
+                "Traditional Morphometrics Model (Point)": {
+                    "geometry":"Point",
+                    "subUrl": "Glasgow_Trad_Centroids-Clusters.pmtiles",
+                    "layer_name": "Glasgow_Trad_Centroids",
+                    "dendogram": "glasgow_trad.png",
+                    "style": [
+                        "step",
+                        [
+                            "get",
+                            "cluster"
+                        ],
+                        "rgb(179,0,0)",
+                        1,
+                        "rgb(1,108,89)",
+                        2,
+                        "rgb(1,70,54)",
+                        3,
+                        "rgb(254,227,145)",
+                        4,
+                        "rgb(54,144,192)",
+                        5,
+                        "rgb(254,153,41)",
+                        6,
+                        "rgb(153,52,4)",
+                        7,
+                        "rgb(199,233,192)",
+                        8,
+                        "rgb(115,115,115)",
+                        9,
+                        "rgb(2,56,88)",
+                        10,
+                        "rgb(120,198,121)",
+                        11,
+                        "rgb(115,115,115)",
+                        12,
+                        "rgb(116,169,207)",
+                        13,
+                        "rgb(115,115,115)",
+                        14,
+                        "rgb(115,115,115)"
+                    ]
+                },
                 "Traditional Morphometrics Model (Buildings)": {
-                    "subUrl": "Glasgow_tradModel_buildings.pmtiles",
+                    "geometry":"Polygon","subUrl": "Glasgow_tradModel_buildings.pmtiles",
                     "layer_name": "tradModel_buildings_converted",
                     "dendogram": "glasgow_trad.png",
                     "style": [
@@ -48,7 +90,7 @@
                     ]
                 },
                 "Traditional Morphometrics Model (Tesselation)": {
-                    "subUrl": "Glasgow_tradModel_tess.pmtiles",
+                    "geometry":"Polygon","subUrl": "Glasgow_tradModel_buildings.pmtiles",
                     "layer_name": "tradModel_tess_converted",
                     "dendogram": "glasgow_trad.png",
                     "style": [
@@ -89,7 +131,7 @@
                     ]
                 },
                 "Cellular Model (Cells)": {
-                    "subUrl": "Glasgow_cellModel_cell.pmtiles",
+                    "geometry":"Polygon","subUrl": "Glasgow_cellModel_cell.pmtiles",
                     "layer_name": "cellModel_cell_converted",
                     "dendogram": "Glasgow_cell.png",
                     "style": [
@@ -150,7 +192,7 @@
                     ]
                 },
                 "Cellular Model (buildings)": {
-                    "subUrl": "Glasgow_cellModel_buildings.pmtiles",
+                    "geometry":"Polygon","subUrl": "Glasgow_tradModel_buildings.pmtiles",
                     "layer_name": "tradModel_buildings_converted",
                     "dendogram": "Glasgow_cell.png",
                     "style": [
@@ -217,7 +259,7 @@
             "coat_of_arms_url": "./city_coat_of_arms/Amsterdam_flag.svg",
             "datasets": {
                 "Traditional Morphometrics Model (Buildings)": {
-                    "subUrl": "Amsterdam_tradModel_buildings.pmtiles",
+                    "geometry":"Polygon","subUrl": "Amsterdam_tradModel_buildings.pmtiles",
                     "layer_name": "tradModel_buildings_converted",
                     "dendogram": "Amsterdam_trad.png",
                     "style": [
@@ -258,7 +300,7 @@
                     ]
                 },
                 "Traditional Morphometrics Model (Tesselation)": {
-                    "subUrl": "Amsterdam_tradModel_tess.pmtiles",
+                    "geometry":"Polygon","subUrl": "Amsterdam_tradModel_buildings.pmtiles",
                     "layer_name": "tradModel_tess_converted",
                     "dendogram": "Amsterdam_trad.png",
                     "style": [
@@ -299,7 +341,7 @@
                     ]
                 },
                 "Cellular Model (Cells)": {
-                    "subUrl": "Amsterdam_cellModel_cell.pmtiles",
+                    "geometry":"Polygon","subUrl": "Amsterdam_cellModel_cell.pmtiles",
                     "layer_name": "cellModel_cell_converted",
                     "dendogram": "Amsterdam_cell.png",
                     "style": [
@@ -360,7 +402,7 @@
                     ]
                 },
                 "Cellular Model (buildings)": {
-                    "subUrl": "Amsterdam_cellModel_buildings.pmtiles",
+                    "geometry":"Polygon","subUrl": "Amsterdam_cellModel_buildings.pmtiles",
                     "layer_name": "tradModel_buildings_converted",
                     "dendogram": "Amsterdam_cell.png",
                     "style": [
@@ -427,7 +469,7 @@
             "coat_of_arms_url": "./city_coat_of_arms/London_coat_of_arms.svg",
             "datasets": {
                 "Traditional Morphometrics Model (Buildings)": {
-                    "subUrl": "London_tradModel_buildings.pmtiles",
+                    "geometry":"Polygon","subUrl": "London_tradModel_buildings.pmtiles",
                     "layer_name": "tradModel_buildings_converted",
                     "dendogram": "London_trad.png",
                     "style": [
@@ -468,7 +510,7 @@
                     ]
                 },
                 "Traditional Morphometrics Model (Tesselation)": {
-                    "subUrl": "London_tradModel_tess.pmtiles",
+                    "geometry":"Polygon","subUrl": "London_tradModel_buildings.pmtiles",
                     "layer_name": "tradModel_tess_converted",
                     "dendogram": "London_trad.png",
                     "style": [
@@ -509,7 +551,7 @@
                     ]
                 },
                 "Cellular Model (Cells)": {
-                    "subUrl": "London_cellModel_cell.pmtiles",
+                    "geometry":"Polygon","subUrl": "London_cellModel_cell.pmtiles",
                     "layer_name": "cellModel_cell_converted",
                     "dendogram": "London_cell.png",
                     "style": [
@@ -570,7 +612,7 @@
                     ]
                 },
                 "Cellular Model (buildings)": {
-                    "subUrl": "London_cellModel_buildings.pmtiles",
+                    "geometry":"Polygon","subUrl": "London_tradModel_buildings.pmtiles",
                     "layer_name": "tradModel_buildings_converted",
                     "dendogram": "London_cell.png",
                     "style": [
@@ -629,6 +671,10 @@
                         24,
                         "rgb(217,217,217)"
                     ]
+                },
+                "Experimental Model with Blocks in variables": {
+                    "geometry":"Polygon","subUrl": "Glasgow_cellModel_blocks_cell.pmtiles",
+                    "layer_name": "cellModel_blocks_cell_converted"
                 }
             }
         }

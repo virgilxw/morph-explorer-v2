@@ -19,7 +19,8 @@ export default function Map() {
   const [zoom] = useState(14);
   const [API_KEY] = useState(process.env.NEXT_PUBLIC_MAPTILER_API_KEY);
   const { legend, setLegend } = useContext(legendContext);
-  const { selectedCity, setSelectedCity, dataset, setDataset } = useContext(selectedCityContext);
+  const { selectedCity, setSelectedCity, dataset, setDataset } =
+    useContext(selectedCityContext);
   const { selectedLayer, setSelectedLayer } = useContext(selectedLayerContext);
   const { selectedDendogram, setSelectedDendogram } = useContext(
     selectedDendogramContext
@@ -75,8 +76,6 @@ export default function Map() {
           ? selectedLayer.keys().next().value
           : selectedLayer.anchorKey;
 
-      console.log(selectedLayer);
-
       const PMTILES_URL = dataSource + dataset[subUrl]["subUrl"];
       const layerName = dataset[subUrl]["layer_name"];
 
@@ -85,16 +84,31 @@ export default function Map() {
         url: `pmtiles://${PMTILES_URL}`,
       });
 
-      map.current.addLayer({
-        id: layerName,
-        type: "fill",
-        source: layerName,
-        "source-layer": layerName,
-        paint: {
-          "fill-color": dataset[subUrl]["style"],
-          "fill-opacity": 0.4,
-        },
-      });
+      if (dataset[subUrl]["geometry"] == "Polygon") {
+        map.current.addLayer({
+          id: layerName,
+          type: "fill",
+          source: layerName,
+          "source-layer": layerName,
+          paint: {
+            "fill-color": dataset[subUrl]["style"],
+            "fill-opacity": 0.4,
+          },
+        });
+      } else if (dataset[subUrl]["geometry"] == "Point") {
+        map.current.addLayer({
+          id: layerName,
+          type: "circle",
+          source: layerName,
+          "source-layer": layerName,
+            paint: {
+              "circle-radius": 2, // Set the radius to 2px
+              "circle-color": dataset[subUrl]["style"], // Set the color based on your dataset
+              "circle-opacity": 0.4, // Set the opacity to 0.4
+              "circle-stroke-width": 0, // Remove the outline by setting the stroke width to 0
+          }
+        });
+      }
 
       setLegend(dataset[subUrl]["style"]);
       setSelectedDendogram(dataset[subUrl]["dendogram"]);
@@ -150,7 +164,7 @@ export default function Map() {
     if (mapContainer.current) {
       mapContainer.current.style.height = `${mapHeight}px`;
     }
-  },);
+  });
 
   return (
     <div className="map-wrap flex-grow bg-gray-200">
