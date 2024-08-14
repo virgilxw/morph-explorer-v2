@@ -50,15 +50,23 @@
                         "Buildings": {
                             "geometry": "Polygon",
                             "subUrl": "Glasgow_Trad_Buildings_Raw.pmtiles",
-                            "layer_name": "Glasgow_Trad_Buildings_Raw"
+                            "layer_name": "Glasgow_Trad_Buildings_Raw",
+                            "style" :{
+                                "fill-color": "white",
+                                "fill-opacity": 0.2
+                              }
                         },
                         "Tesselation": {
                             "geometry": "Polygon",
                             "subUrl": "Glasgow_Trad_Tess_Raw.pmtiles",
-                            "layer_name": "Glasgow_Trad_Buildings_Raw"
+                            "layer_name": "Glasgow_Trad_Tess_Raw",
+                            "style": {
+                                "fill-color": "grey",
+                                "fill-opacity": 0.1
+                              }
                         },
                         "Road Network Edges": {
-                            "geometry": "Points",
+                            "geometry": "Point",
                             "subUrl": "Glasgow_Trad_Edges_Raw.pmtiles",
                             "layer_name": "Glasgow_Trad_Edges_Raw"
                         },

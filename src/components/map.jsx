@@ -7,13 +7,13 @@ import { Protocol } from "pmtiles";
 import "./map.css";
 import selectedCityContext from "../contexts/selectedCityContext.jsx";
 import selectedLayerContext from "../contexts/selectedLayerContext.jsx";
+import mapContext from '../contexts/mapContext.jsx';
+
 import directory from "../data/directory_v2.json";
 import legendContext from "../contexts/legendContext.jsx";
 import selectedDendogramContext from "@/contexts/selectedDendogramContext.jsx";
 
 export default function Map() {
-  const mapContainer = useRef(null);
-  const map = useRef(null);
   const [lng] = useState(-4.25);
   const [lat] = useState(55.861111);
   const [zoom] = useState(14);
@@ -21,13 +21,13 @@ export default function Map() {
   const { legend, setLegend } = useContext(legendContext);
   const { selectedCity, setSelectedCity, dataset, setDataset } =
     useContext(selectedCityContext);
-  const { selectedLayer, setSelectedLayer } = useContext(selectedLayerContext);
+  const { selectedLayer, setSelectedLayer, activeLayers, setActiveLayers, activeModel, setActiveModel } = useContext(selectedLayerContext);
   const { selectedDendogram, setSelectedDendogram } = useContext(
     selectedDendogramContext
   );
 
+  const {map, mapContainer} = useContext(mapContext)
   const [dataSource, setDataSource] = useState(directory.cdn_url);
-  const [activeLayer, setActiveLayer] = useState(null);
 
   useEffect(() => {
     // Find city data when currentCity changes
@@ -84,9 +84,12 @@ export default function Map() {
         url: `pmtiles://${PMTILES_URL}`,
       });
 
+      setActiveLayers(["ClusterCloud"])
+
+
       if (dataset[subUrl]["geometry"] == "Polygon") {
         map.current.addLayer({
-          id: layerName,
+          id: "ClusterCloud",
           type: "fill",
           source: layerName,
           "source-layer": layerName,
@@ -97,14 +100,14 @@ export default function Map() {
         });
       } else if (dataset[subUrl]["geometry"] == "Point") {
         map.current.addLayer({
-          id: layerName,
+          id: "ClusterCloud",
           type: "circle",
           source: layerName,
           "source-layer": layerName,
             paint: {
               "circle-radius": 2, // Set the radius to 2px
               "circle-color": dataset[subUrl]["style"], // Set the color based on your dataset
-              "circle-opacity": 0.4, // Set the opacity to 0.4
+              "circle-opacity": 1, // Set the opacity to 0.4
               "circle-stroke-width": 0, // Remove the outline by setting the stroke width to 0
           }
         });
@@ -113,16 +116,16 @@ export default function Map() {
       setLegend(dataset[subUrl]["style"]);
       setSelectedDendogram(dataset[subUrl]["dendogram"]);
 
-      setActiveLayer(layerName); // Update activeLayer state
+      setActiveModel(layerName); // Update activeModel state
     };
 
     // Only setup the listener once and ensure clean up
     if (map && map.current) {
-      // Check if activeLayer exists and remove it
-      if (activeLayer) {
-        map.current.removeLayer(activeLayer);
-        map.current.removeSource(activeLayer); // Ensure removal uses the source name/id
-        setActiveLayer(null);
+      // Check if activeModel exists and remove it
+      if (activeModel) {
+        map.current.removeLayer(activeModel);
+        map.current.removeSource(activeModel); // Ensure removal uses the source name/id
+        setActiveModel(null);
       }
       // Check if the map's style is already loaded
       if (map.current.isStyleLoaded()) {
@@ -140,7 +143,7 @@ export default function Map() {
         map.current.off("styledata", executeLayerOperations);
       }
     };
-  }, [dataSource, dataset, selectedLayer, activeLayer]);
+  }, [dataSource, dataset, selectedLayer, activeModel]);
 
   const [mapHeight, setMapHeight] = useState(1500);
 

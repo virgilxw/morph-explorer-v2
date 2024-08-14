@@ -9,78 +9,181 @@ import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
+import mapContext from "../../contexts/mapContext.jsx";
+
+import directory from "../../data/directory_v2.json";
 
 export default function LaterSelectModule() {
   const { selectedCity, setSelectedCity, dataset, setDataset } =
     useContext(selectedCityContext);
-  const { selectedLayer, setSelectedLayer } = useContext(selectedLayerContext);
+  const {
+    selectedLayer,
+    setSelectedLayer,
+    activeLayers,
+    setActiveLayers,
+    activeModel,
+    setActiveModel,
+  } = useContext(selectedLayerContext);
   const [layerList, setlayerList] = useState([]);
+  const { map, mapContainer } = useContext(mapContext);
+
+  const [layerName, setlayerName] = useState([]);
 
   useEffect(() => {
     if (!dataset || !selectedLayer) return;
+
     let subUrl =
-        selectedLayer.anchorKey == null
-          ? selectedLayer.keys().next().value
-          : selectedLayer.anchorKey;
+      selectedLayer.anchorKey == null
+        ? selectedLayer.keys().next().value
+        : selectedLayer.anchorKey;
 
     if (!dataset[subUrl]) return;
-    setlayerList(Object.keys(dataset[subUrl]["layers"]));
+    setlayerList(dataset[subUrl]["layers"]);
 
+    if (!dataset) return;
+
+    // Clean up previous styledata event listener
+    const onStyleData = () => {
+      Object.keys(dataset[subUrl]["layers"]).forEach((value) => {
+        const layerName = selectedCity + value;
+
+        const PMTILES_URL =
+          directory.cdn_url + dataset[subUrl]["layers"][value]["subUrl"];
+
+        // Check if source already exists
+        if (!map.current.getSource(layerName)) {
+          map.current.addSource(layerName, {
+            type: "vector",
+            url: `pmtiles://${PMTILES_URL}`,
+          });
+        }
+      });
+    };
+
+    map.current.on("styledata", onStyleData);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      map.current.off("styledata", onStyleData);
+    };
+
+    setlayerName(dataset[subUrl]["layer_name"]);
   }, [dataset, selectedLayer]);
-
-  // const layerList = [
-  //   "Points (for Clusters)",
-  //   "Buildings",
-  //   "Tessellated Cell",
-  //   "Block",
-  //   "Street Nodes",
-  //   "Street Edges",
-  //   "Comments",
-  // ];
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
 
+    let subUrl =
+      selectedLayer.anchorKey == null
+        ? selectedLayer.keys().next().value
+        : selectedLayer.anchorKey;
+
     if (currentIndex === -1) {
+      // Checked
       newChecked.push(value);
+  
+
+      if (value == "ClusterCloud") {
+
+        console.log('%csrc/components/leftSideBar/layerSelectModule.jsx:88 layerName', 'color: white; background-color: #007acc;', layerName);
+        map.current.addLayer({
+          id: "ClusterCloud",
+          type: "circle",
+          source: dataset[subUrl]["layer_name"],
+          "source-layer": dataset[subUrl]["layer_name"],
+          paint: {
+            "circle-radius": 2, // Set the radius to 2px
+            "circle-color": dataset[subUrl]["style"], // Set the color based on your dataset
+            "circle-opacity": 1, // Set the opacity to 0.4
+            "circle-stroke-width": 0, // Remove the outline by setting the stroke width to 0
+          },
+        });
+      } else if (layerList[value]["geometry"] == "Polygon") {
+        map.current.addLayer({
+          id: layerName,
+          type: "fill",
+          source: layerName,
+          "source-layer": dataset[subUrl]["layers"][value]["layer_name"],
+          paint: dataset[subUrl]["layers"][value]["style"],
+        });
+      } else if (layerList[value]["geometry"] == "Point") {
+        map.current.addLayer({
+          id: "ClusterCloud",
+          type: "circle",
+          source: layerName,
+          "source-layer": dataset[subUrl]["layers"][value]["layer_name"],
+          paint: {
+            "circle-radius": 2, // Set the radius to 2px
+            "circle-color": dataset[subUrl]["style"], // Set the color based on your dataset
+            "circle-opacity": 0.4, // Set the opacity to 0.4
+            "circle-stroke-width": 0, // Remove the outline by setting the stroke width to 0
+          },
+        });
+      }
     } else {
+      // Unchecked
       newChecked.splice(currentIndex, 1);
+      if (value == "ClusterCloud") {
+        map.current.removeLayer(value);
+      } else {
+        const layerName = selectedCity + value;
+        map.current.removeLayer(layerName);
+      }
     }
     setChecked(newChecked);
   };
 
-  const [checked, setChecked] = useState([0]);
+  const [checked, setChecked] = useState(["ClusterCloud"]);
 
   return (
     <>
       <p>Layers:</p>
       <List sx={{ width: "100%", maxWidth: 360 }}>
-        {layerList.map((value) => {
+        <ListItem
+          key="ClusterCloud"
+          secondaryAction={
+            <IconButton edge="end" aria-label="info" color="secondary">
+              <InfoIcon />
+            </IconButton>
+          }
+          disableGutters
+          disablePadding
+        >
+          <ListItemButton dense onClick={handleToggle("ClusterCloud")}>
+            <ListItemIcon>
+              <Checkbox
+                edge="start"
+                checked={checked.indexOf("ClusterCloud") !== -1}
+                disableRipple
+                inputProps={{ "aria-labelledby": "ClusterCloud" }}
+              />
+            </ListItemIcon>
+            <ListItemText
+              primaryTypographyProps={{ fontSize: "12px" }}
+              id="ClusterCloud"
+              primary="Point Cloud"
+            />
+          </ListItemButton>
+        </ListItem>
+        {Object.keys(layerList).map((value, index) => {
           const labelId = `checkbox-list-label-${value}`;
-
           return (
             <ListItem
-              key={value}
+              key={index} // Using index as key
               secondaryAction={
-                <IconButton edge="end" aria-label="comments" color="secondary">
+                <IconButton edge="end" aria-label="info" color="secondary">
                   <InfoIcon />
                 </IconButton>
               }
               disableGutters
-              className="py-0"
               disablePadding
             >
-              <ListItemButton
-                role={undefined}
-                onClick={handleToggle(value)}
-                dense
-              >
+              <ListItemButton dense onClick={handleToggle(value)}>
                 <ListItemIcon>
                   <Checkbox
                     edge="start"
                     checked={checked.indexOf(value) !== -1}
-                    tabIndex={-1}
                     disableRipple
                     inputProps={{ "aria-labelledby": labelId }}
                   />
@@ -88,7 +191,7 @@ export default function LaterSelectModule() {
                 <ListItemText
                   primaryTypographyProps={{ fontSize: "12px" }}
                   id={labelId}
-                  primary={`${value}`}
+                  primary={value}
                 />
               </ListItemButton>
             </ListItem>
