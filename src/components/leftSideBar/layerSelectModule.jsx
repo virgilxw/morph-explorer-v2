@@ -177,7 +177,7 @@ export default function LaterSelectModule() {
             <ListItemText
               primaryTypographyProps={{ fontSize: "12px" }}
               id="ClusterCloud"
-              primary="Point Cloud"
+              primary= "Building Urban Type Cluster"
             />
           </ListItemButton>
         </ListItem>
