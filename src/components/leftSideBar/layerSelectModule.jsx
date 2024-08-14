@@ -45,7 +45,7 @@ export default function LaterSelectModule() {
     // Clean up previous styledata event listener
     const onStyleData = () => {
       Object.keys(dataset[subUrl]["layers"]).forEach((value) => {
-        const layerName = selectedCity + value;
+        const layerName = (selectedCity + value).replace(/\s/g, "");
 
         const PMTILES_URL =
           directory.cdn_url + dataset[subUrl]["layers"][value]["subUrl"];
@@ -82,11 +82,16 @@ export default function LaterSelectModule() {
     if (currentIndex === -1) {
       // Checked
       newChecked.push(value);
-  
+
+      const layerName = (selectedCity + value).replace(/\s/g, "");
+
+      console.log(
+        "%csrc/components/leftSideBar/layerSelectModule.jsx:90 ",
+        "color: white; background-color: #007acc;",
+        layerList[value]["geometry"]
+      );
 
       if (value == "ClusterCloud") {
-
-        console.log('%csrc/components/leftSideBar/layerSelectModule.jsx:88 layerName', 'color: white; background-color: #007acc;', layerName);
         map.current.addLayer({
           id: "ClusterCloud",
           type: "circle",
@@ -109,16 +114,26 @@ export default function LaterSelectModule() {
         });
       } else if (layerList[value]["geometry"] == "Point") {
         map.current.addLayer({
-          id: "ClusterCloud",
+          id: layerName,
           type: "circle",
           source: layerName,
           "source-layer": dataset[subUrl]["layers"][value]["layer_name"],
           paint: {
             "circle-radius": 2, // Set the radius to 2px
-            "circle-color": dataset[subUrl]["style"], // Set the color based on your dataset
+            "circle-color": "red", // Set the color based on your dataset
             "circle-opacity": 0.4, // Set the opacity to 0.4
-            "circle-stroke-width": 0, // Remove the outline by setting the stroke width to 0
+            "circle-stroke-width": 2, // Remove the outline by setting the stroke width to 0
           },
+        });
+      } else if (layerList[value]["geometry"] == "Line") {
+        map.current.addLayer({
+          id: layerName,
+          type: "line",
+          source: layerName,
+          "source-layer": dataset[subUrl]["layers"][value]["layer_name"],
+          paint: {
+            "line-width":2
+          }
         });
       }
     } else {
@@ -127,7 +142,7 @@ export default function LaterSelectModule() {
       if (value == "ClusterCloud") {
         map.current.removeLayer(value);
       } else {
-        const layerName = selectedCity + value;
+        const layerName = (selectedCity + value).replace(/\s/g, "");
         map.current.removeLayer(layerName);
       }
     }
