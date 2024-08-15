@@ -8,7 +8,6 @@ import "./map.css";
 import selectedCityContext from "../contexts/selectedCityContext.jsx";
 import selectedLayerContext from "../contexts/selectedLayerContext.jsx";
 import mapContext from '../contexts/mapContext.jsx';
-
 import directory from "../data/directory_v2.json";
 import legendContext from "../contexts/legendContext.jsx";
 import selectedDendogramContext from "@/contexts/selectedDendogramContext.jsx";
@@ -25,7 +24,6 @@ export default function Map() {
   const { selectedDendogram, setSelectedDendogram } = useContext(
     selectedDendogramContext
   );
-
   const {map, mapContainer} = useContext(mapContext)
   const [dataSource, setDataSource] = useState(directory.cdn_url);
 

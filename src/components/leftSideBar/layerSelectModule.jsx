@@ -85,12 +85,6 @@ export default function LaterSelectModule() {
 
       const layerName = (selectedCity + value).replace(/\s/g, "");
 
-      console.log(
-        "%csrc/components/leftSideBar/layerSelectModule.jsx:90 ",
-        "color: white; background-color: #007acc;",
-        layerList[value]["geometry"]
-      );
-
       if (value == "ClusterCloud") {
         map.current.addLayer({
           id: "ClusterCloud",

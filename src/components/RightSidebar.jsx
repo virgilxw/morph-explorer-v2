@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import LegendBox from "./rightSideBar/legendBox.jsx";
 import CommentsSelectModule from "./rightSideBar/commentsSelectModule.jsx";
+import VariablesSelectModule from "./rightSideBar/variablesSelectModule.jsx";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
@@ -19,7 +20,7 @@ const RightSidebar = ({ isVisible, toggleVisibility }) => {
   };
 
   return (
-    <div className="flex mt-20 max-w-60">
+    <div className="flex mt-25 max-w-64">
       {/* Collapsible Bar */}
       <aside
         className={`transition-all duration-300 w-0.5 bg-[#4A4A4A] px-2 overflow-hidden cursor-pointer flex items-center justify-center text-white`}
@@ -32,7 +33,7 @@ const RightSidebar = ({ isVisible, toggleVisibility }) => {
       {/* Left Sidebar */}
       <aside
         className={`transition-all duration-300 ${
-          isVisible ? "min-w-40 px-4" : "w-0 px-0"
+          isVisible ? "min-w-54 px-4" : "w-0 px-0"
         } py-4 bg-[#2D2D2D] overflow-hidden text-white flex flex-col gap-y-3`}
       >
         {/* Divided sections */}
@@ -42,6 +43,9 @@ const RightSidebar = ({ isVisible, toggleVisibility }) => {
           <Button variant="contained" onClick={handleClick}>
             Show Dendogram
           </Button>
+          <div className="flex-grow p-2 max-h-72">
+            <VariablesSelectModule />
+          </div>
           <div className="flex-grow p-2 max-h-72">
             <CommentsSelectModule />
           </div>
