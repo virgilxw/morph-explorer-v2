@@ -51,10 +51,12 @@ const VarCard = ({ cardInfo, expanded, onExpandClick, isHighlighted }) => {
   );
 };
 
-const addLayer = (map, dataset, layerList, sourcesDict, selectedCity, value) => {
+const addLayer = (map, dataset, layerList, sourcesDict, selectedCity, value, selectedVar) => {
 
     const subUrl = layerList[value]["subUrl"]
     const layerName = (selectedCity + value).replace(/\s/g, "")
+
+    console.log('%csrc/components/rightSideBar/variablesSelectModule.jsx:59 layerList[value]', 'color: white; background-color: #007acc;', selectedVar["name"]);
 
   if (layerList[value]["geometry"] == "Polygon") {
     map.current.addLayer({
@@ -126,16 +128,16 @@ const VariablesSelectModule = () => {
     const newChecked = [];
 
     if (data[index]["domain"] == "buildings") {
-      addLayer(map, dataset, layerList, sourcesDict, selectedCity, "Buildings");
+      addLayer(map, dataset, layerList, sourcesDict, selectedCity, "Buildings", data[index]);
       newChecked.push("Buildings")
     } else if (data[index]["domain"] == "tess") {
-      addLayer(map, dataset, layerList, sourcesDict, selectedCity, "Tesselation");
+      addLayer(map, dataset, layerList, sourcesDict, selectedCity, "Tesselation", data[index]);
       newChecked.push("Tesselation")
     } else if (data[index]["domain"] == "edges") {
-      addLayer(map, dataset, layerList, sourcesDict, selectedCity, "Road Network Edges");
+      addLayer(map, dataset, layerList, sourcesDict, selectedCity, "Road Network Edges", data[index]);
       newChecked.push("Road Network Edges")
     } else if (data[index]["domain"] == "nodes") {
-      addLayer(map, dataset, layerList, sourcesDict, selectedCity, "Road Network Nodes");
+      addLayer(map, dataset, layerList, sourcesDict, selectedCity, "Road Network Nodes", data[index]);
       newChecked.push("Road Network Nodes")
     }
     setChecked(newChecked);
