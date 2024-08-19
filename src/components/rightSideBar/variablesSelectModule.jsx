@@ -57,7 +57,6 @@ const addLayer = (map, dataset, layerList, sourcesDict, selectedCity, value) => 
     const layerName = (selectedCity + value).replace(/\s/g, "")
 
   if (layerList[value]["geometry"] == "Polygon") {
-    console.log('%csrc/components/rightSideBar/variablesSelectModule.jsx:60 layerName, ', 'color: white; background-color: #007acc;', layerList);
     map.current.addLayer({
       id: layerName,
       type: "fill",
@@ -124,15 +123,22 @@ const VariablesSelectModule = () => {
 
     setChecked([]);
 
+    const newChecked = [];
+
     if (data[index]["domain"] == "buildings") {
       addLayer(map, dataset, layerList, sourcesDict, selectedCity, "Buildings");
+      newChecked.push("Buildings")
     } else if (data[index]["domain"] == "tess") {
       addLayer(map, dataset, layerList, sourcesDict, selectedCity, "Tesselation");
+      newChecked.push("Tesselation")
     } else if (data[index]["domain"] == "edges") {
       addLayer(map, dataset, layerList, sourcesDict, selectedCity, "Road Network Edges");
+      newChecked.push("Road Network Edges")
     } else if (data[index]["domain"] == "nodes") {
       addLayer(map, dataset, layerList, sourcesDict, selectedCity, "Road Network Nodes");
+      newChecked.push("Road Network Nodes")
     }
+    setChecked(newChecked);
   };
 
   useEffect(() => {

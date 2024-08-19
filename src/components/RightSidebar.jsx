@@ -9,7 +9,10 @@ import selectedDendogramContext from "@/contexts/selectedDendogramContext.jsx";
 
 const RightSidebar = ({ isVisible, toggleVisibility }) => {
   const [isLightboxOpen, setLightboxOpen] = useState(false);
-  const { selectedDendogram, setSelectedDendogram } = useContext(selectedDendogramContext);
+  const [isLegendBoxOpen, setLegendBoxOpen] = useState(false);
+  const [isVariablesOpen, setVariablesOpen] = useState(false);
+  const [isCommentsOpen, setCommentsOpen] = useState(false);
+  const { selectedDendogram } = useContext(selectedDendogramContext);
 
   const handleClick = () => {
     setLightboxOpen(!isLightboxOpen);
@@ -20,7 +23,7 @@ const RightSidebar = ({ isVisible, toggleVisibility }) => {
   };
 
   return (
-    <div className="flex mt-25 max-w-64">
+    <div className="flex mt-25 max-w-64 max-h-screen">
       {/* Collapsible Bar */}
       <aside
         className={`transition-all duration-300 w-0.5 bg-[#4A4A4A] px-2 overflow-hidden cursor-pointer flex items-center justify-center text-white`}
@@ -33,23 +36,73 @@ const RightSidebar = ({ isVisible, toggleVisibility }) => {
       {/* Left Sidebar */}
       <aside
         className={`transition-all duration-300 ${
-          isVisible ? "min-w-54 px-4" : "w-0 px-0"
-        } py-4 bg-[#2D2D2D] overflow-hidden text-white flex flex-col gap-y-3`}
+          isVisible ? "min-w-64 px-4" : "w-0 px-0"
+        } py-4 bg-[#2D2D2D] overflow-hidden max-h-screen text-white flex flex-col gap-y-3`}
       >
-        {/* Divided sections */}
-        <div className="flex flex-col flex-grow gap-y-4">
-          <LegendBox />
-
-          <Button variant="contained" onClick={handleClick}>
-            Show Dendogram
-          </Button>
-          <div className="flex-grow p-2 max-h-72">
-            <VariablesSelectModule />
+        <div className="h-24">
+        </div>
+        {/* Collapsible Legend Box */}
+        <div>
+          <div
+            className="cursor-pointer flex items-center justify-between"
+            onClick={() => setLegendBoxOpen(!isLegendBoxOpen)}
+          >
+            <h2>Legend</h2>
+            <span>{isLegendBoxOpen ? "-" : "+"}</span>
           </div>
-          <div className="flex-grow p-2 max-h-72">
-            <CommentsSelectModule />
+          <div
+            className={`transition-all duration-300 overflow-hidden ${
+              isLegendBoxOpen ? "max-h-64" : "max-h-0"
+            }`}
+          >
+            <LegendBox />
           </div>
         </div>
+
+        {/* Collapsible Variables Select Module */}
+        <div>
+          <div
+            className="cursor-pointer flex items-center justify-between"
+            onClick={() => setVariablesOpen(!isVariablesOpen)}
+          >
+            <h2>Variables</h2>
+            <span>{isVariablesOpen ? "-" : "+"}</span>
+          </div>
+          <div
+            className={`transition-all duration-300 overflow-hidden ${
+              isVariablesOpen ? "max-h-72" : "max-h-0"
+            }`}
+          >
+            <div className="flex-grow p-2">
+              <VariablesSelectModule />
+            </div>
+          </div>
+        </div>
+
+        {/* Collapsible Comments Select Module */}
+        <div>
+          <div
+            className="cursor-pointer flex items-center justify-between"
+            onClick={() => setCommentsOpen(!setCommentsOpen)}
+          >
+            <h2>Comments</h2>
+            <span>{isCommentsOpen ? "-" : "+"}</span>
+          </div>
+          <div
+            className={`transition-all duration-300 overflow-hidden ${
+              isCommentsOpen ? "max-h-72" : "max-h-0"
+            }`}
+          >
+            <div className="flex-grow p-2">
+              <CommentsSelectModule />
+            </div>
+          </div>
+        </div>
+
+        {/* Show Dendogram Button */}
+        <Button variant="contained" onClick={handleClick}>
+          Show Dendogram
+        </Button>
       </aside>
 
       {/* Lightbox Modal */}

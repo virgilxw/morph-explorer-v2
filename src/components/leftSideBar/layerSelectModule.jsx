@@ -92,6 +92,7 @@ export default function LaterSelectModule() {
 
     if (currentIndex === -1) {
       // Checked
+
       newChecked.push(value);
 
       const layerName = (selectedCity + value).replace(/\s/g, "");
