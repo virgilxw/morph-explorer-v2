@@ -26,6 +26,11 @@ const Page = () => {
 
   const [isLeftSidebarVisible, setIsLeftSidebarVisible] = useState(true);
   const [isRightSidebarVisible, setIsRightSidebarVisible] = useState(true);
+  const [expandedIndex, setExpandedIndex] = useState(null); // Keep track of the expanded card
+  const [layerList, setlayerList] = useState([]); // Keep track of the expanded card
+  const [sourcesDict, setsourcesDict] = useState({}); // Keep track of the expanded card
+
+  const [checked, setChecked] = useState(["ClusterCloud"]);
 
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -48,7 +53,10 @@ const Page = () => {
 
   return (
     <selectedCityContext.Provider value={{ selectedCity, setSelectedCity, dataset, setDataset }}>
-      <selectedLayerContext.Provider value={{ selectedLayer, setSelectedLayer, activeLayers, setActiveLayers, activeModel, setActiveModel }}>
+      <selectedLayerContext.Provider value={{
+        selectedLayer, setSelectedLayer, activeLayers, setActiveLayers, activeModel, setActiveModel, expandedIndex, setExpandedIndex,layerList,
+        setlayerList, checked, setChecked, sourcesDict, setsourcesDict
+      }}>
         <selectedDendogramContext.Provider value={{ selectedDendogram, setSelectedDendogram }}>
           <legendContext.Provider value={{ legend, setLegend }}>
             <mapContext.Provider value={{ map, mapContainer }}>

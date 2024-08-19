@@ -16,7 +16,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 // VarCard component with collapsible content
 const VarCard = ({ cardInfo, expanded, onExpandClick, isHighlighted }) => {
-
   return (
     <Card
       className={`w-full ${isHighlighted ? "bg-yellow-100" : ""}`} // Highlight the active card
@@ -52,6 +51,46 @@ const VarCard = ({ cardInfo, expanded, onExpandClick, isHighlighted }) => {
   );
 };
 
+const addLayer = (map, dataset, layerList, sourcesDict, selectedCity, value) => {
+
+    const subUrl = layerList[value]["subUrl"]
+    const layerName = (selectedCity + value).replace(/\s/g, "")
+
+  if (layerList[value]["geometry"] == "Polygon") {
+    console.log('%csrc/components/rightSideBar/variablesSelectModule.jsx:60 layerName, ', 'color: white; background-color: #007acc;', layerList);
+    map.current.addLayer({
+      id: layerName,
+      type: "fill",
+      source: layerName,
+      "source-layer": layerList[value]["layer_name"],
+      paint: layerList[value]["style"],
+    });
+  } else if (layerList[value]["geometry"] == "Point") {
+    map.current.addLayer({
+      id: layerName,
+      type: "circle",
+      source: layerName,
+      "source-layer": layerList[value]["layer_name"],
+      paint: {
+        "circle-radius": 2, // Set the radius to 2px
+        "circle-color": "red", // Set the color based on your dataset
+        "circle-opacity": 0.4, // Set the opacity to 0.4
+        "circle-stroke-width": 2, // Remove the outline by setting the stroke width to 0
+      },
+    });
+  } else if (layerList[value]["geometry"] == "Line") {
+    map.current.addLayer({
+      id: layerName,
+      type: "line",
+      source: layerName,
+      "source-layer": layerList[value]["layer_name"],
+      paint: {
+        "line-width": 2,
+      },
+    });
+  }
+};
+
 const VariablesSelectModule = () => {
   const { selectedCity, setSelectedCity, dataset, setDataset } =
     useContext(selectedCityContext);
@@ -62,22 +101,48 @@ const VariablesSelectModule = () => {
     setActiveLayers,
     activeModel,
     setActiveModel,
+    expandedIndex,
+    setExpandedIndex,
+    layerList,
+    setlayerList,
+    checked,
+    setChecked, sourcesDict, setsourcesDict
   } = useContext(selectedLayerContext);
   const { map, mapContainer } = useContext(mapContext);
   const [data, setData] = useState([]);
-  const [expandedIndex, setExpandedIndex] = useState(null); // Keep track of the expanded card
+  const [subUrl, setsubUrl] = useState(null);
 
   const handleExpandClick = (index) => {
     setExpandedIndex(expandedIndex === index ? null : index); // Toggle the clicked card
+
+    Object.keys(layerList).map((value) => {
+      const layerName = (selectedCity + value).replace(/\s/g, "");
+      map.current.removeLayer(layerName);
+    });
+    
+    map.current.removeLayer("ClusterCloud");
+
+    setChecked([]);
+
+    if (data[index]["domain"] == "buildings") {
+      addLayer(map, dataset, layerList, sourcesDict, selectedCity, "Buildings");
+    } else if (data[index]["domain"] == "tess") {
+      addLayer(map, dataset, layerList, sourcesDict, selectedCity, "Tesselation");
+    } else if (data[index]["domain"] == "edges") {
+      addLayer(map, dataset, layerList, sourcesDict, selectedCity, "Road Network Edges");
+    } else if (data[index]["domain"] == "nodes") {
+      addLayer(map, dataset, layerList, sourcesDict, selectedCity, "Road Network Nodes");
+    }
   };
 
   useEffect(() => {
     if (!dataset || !selectedLayer) return;
 
-    let subUrl =
+    setsubUrl(
       selectedLayer.anchorKey == null
         ? selectedLayer.keys().next().value
-        : selectedLayer.anchorKey;
+        : selectedLayer.anchorKey
+    );
 
     if (!dataset[subUrl]) return;
 

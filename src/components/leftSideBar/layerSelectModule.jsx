@@ -23,8 +23,11 @@ export default function LaterSelectModule() {
     setActiveLayers,
     activeModel,
     setActiveModel,
+    expandedIndex, 
+    setExpandedIndex,
+    layerList,
+    setlayerList, checked, setChecked, sourcesDict, setsourcesDict
   } = useContext(selectedLayerContext);
-  const [layerList, setlayerList] = useState([]);
   const { map, mapContainer } = useContext(mapContext);
 
   const [layerName, setlayerName] = useState([]);
@@ -49,6 +52,14 @@ export default function LaterSelectModule() {
 
         const PMTILES_URL =
           directory.cdn_url + dataset[subUrl]["layers"][value]["subUrl"];
+
+        setsourcesDict(prevDict => ({
+          ...prevDict,
+          [layerName]: {
+            type: "vector",
+            url: `pmtiles://${PMTILES_URL}`,
+          }
+        }))
 
         // Check if source already exists
         if (!map.current.getSource(layerName)) {
@@ -143,7 +154,6 @@ export default function LaterSelectModule() {
     setChecked(newChecked);
   };
 
-  const [checked, setChecked] = useState(["ClusterCloud"]);
 
   return (
     <>
