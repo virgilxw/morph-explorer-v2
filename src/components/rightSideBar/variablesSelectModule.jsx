@@ -53,18 +53,39 @@ const VarCard = ({ cardInfo, expanded, onExpandClick, isHighlighted }) => {
 
 const addLayer = (map, dataset, layerList, sourcesDict, selectedCity, value, selectedVar) => {
 
-    const subUrl = layerList[value]["subUrl"]
-    const layerName = (selectedCity + value).replace(/\s/g, "")
+  const subUrl = layerList[value]["subUrl"]
+  const layerName = (selectedCity + value).replace(/\s/g, "")
 
-    console.log('%csrc/components/rightSideBar/variablesSelectModule.jsx:59 layerList[value]', 'color: white; background-color: #007acc;', selectedVar["name"]);
-
+  console.log('%csrc/components/rightSideBar/variablesSelectModule.jsx:59 layerList[value]', 'color: white; background-color: #007acc;', selectedVar["name"]);
+  
   if (layerList[value]["geometry"] == "Polygon") {
     map.current.addLayer({
       id: layerName,
       type: "fill",
       source: layerName,
       "source-layer": layerList[value]["layer_name"],
-      paint: layerList[value]["style"],
+      paint: {'fill-color':[
+        "step",
+        [
+            "get",
+            selectedVar["name"]
+        ],
+        "#fff7fb",
+        selectedVar["breaks"][0],
+        "#ece7f2",
+        selectedVar["breaks"][1],
+        "#d0d1e6",
+        selectedVar["breaks"][2],
+        "#a6bddb",
+        selectedVar["breaks"][3],
+        "#74a9cf",
+        selectedVar["breaks"][4],
+        "#3690c0",
+        selectedVar["breaks"][5],
+        "#0570b0",
+        selectedVar["breaks"][6],
+        "#034e7b"
+      ]},
     });
   } else if (layerList[value]["geometry"] == "Point") {
     map.current.addLayer({
