@@ -69,7 +69,7 @@ const RightSidebar = ({ isVisible, toggleVisibility }) => {
             <span>{isVariablesOpen ? "-" : "+"}</span>
           </div>
           <div
-            className={`transition-all duration-300 overflow-hidden ${
+            className={`transition-all duration-300 overflow-y-auto ${
               isVariablesOpen ? "max-h-72" : "max-h-0"
             }`}
           >
@@ -89,7 +89,7 @@ const RightSidebar = ({ isVisible, toggleVisibility }) => {
             <span>{isCommentsOpen ? "-" : "+"}</span>
           </div>
           <div
-            className={`transition-all duration-300 overflow-hidden ${
+            className={`transition-all duration-300 overflow-y-auto ${
               isCommentsOpen ? "max-h-72" : "max-h-0"
             }`}
           >

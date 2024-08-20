@@ -51,41 +51,53 @@ const VarCard = ({ cardInfo, expanded, onExpandClick, isHighlighted }) => {
   );
 };
 
-const addLayer = (map, dataset, layerList, sourcesDict, selectedCity, value, selectedVar) => {
+const addLayer = (
+  map,
+  dataset,
+  layerList,
+  sourcesDict,
+  selectedCity,
+  value,
+  selectedVar
+) => {
+  const subUrl = layerList[value]["subUrl"];
+  const layerName = (selectedCity + value).replace(/\s/g, "");
 
-  const subUrl = layerList[value]["subUrl"]
-  const layerName = (selectedCity + value).replace(/\s/g, "")
+  console.log(
+    "%csrc/components/rightSideBar/variablesSelectModule.jsx:59 layerList[value]",
+    "color: white; background-color: #007acc;",
+    selectedVar["name"]
+  );
 
-  console.log('%csrc/components/rightSideBar/variablesSelectModule.jsx:59 layerList[value]', 'color: white; background-color: #007acc;', selectedVar["name"]);
-  
   if (layerList[value]["geometry"] == "Polygon") {
     map.current.addLayer({
       id: layerName,
       type: "fill",
       source: layerName,
       "source-layer": layerList[value]["layer_name"],
-      paint: {'fill-color':[
-        "step",
-        [
-            "get",
-            selectedVar["name"]
+      paint: {
+        "fill-color": [
+          "step",
+          ["get", selectedVar["name"]],
+          "#d73027",
+          selectedVar["breaks"][0],
+          "#f46d43",
+          selectedVar["breaks"][1],
+          "#fdae61",
+          selectedVar["breaks"][2],
+          "#fee090",
+          selectedVar["breaks"][3],
+          "#e0f3f8",
+          selectedVar["breaks"][4],
+          "#abd9e9",
+          selectedVar["breaks"][5],
+          "#74add1",
+          selectedVar["breaks"][6],
+          "#4575b4",
         ],
-        "#fff7fb",
-        selectedVar["breaks"][0],
-        "#ece7f2",
-        selectedVar["breaks"][1],
-        "#d0d1e6",
-        selectedVar["breaks"][2],
-        "#a6bddb",
-        selectedVar["breaks"][3],
-        "#74a9cf",
-        selectedVar["breaks"][4],
-        "#3690c0",
-        selectedVar["breaks"][5],
-        "#0570b0",
-        selectedVar["breaks"][6],
-        "#034e7b"
-      ]},
+        "fill-opacity": 1,
+        "fill-outline-color": "#000",
+      },
     });
   } else if (layerList[value]["geometry"] == "Point") {
     map.current.addLayer({
@@ -95,9 +107,27 @@ const addLayer = (map, dataset, layerList, sourcesDict, selectedCity, value, sel
       "source-layer": layerList[value]["layer_name"],
       paint: {
         "circle-radius": 2, // Set the radius to 2px
-        "circle-color": "red", // Set the color based on your dataset
+        "circle-color": [
+          "step",
+          ["get", selectedVar["name"]],
+          "#d73027",
+          selectedVar["breaks"][0],
+          "#f46d43",
+          selectedVar["breaks"][1],
+          "#fdae61",
+          selectedVar["breaks"][2],
+          "#fee090",
+          selectedVar["breaks"][3],
+          "#e0f3f8",
+          selectedVar["breaks"][4],
+          "#abd9e9",
+          selectedVar["breaks"][5],
+          "#74add1",
+          selectedVar["breaks"][6],
+          "#4575b4",
+        ], // Set the color based on your dataset
         "circle-opacity": 0.4, // Set the opacity to 0.4
-        "circle-stroke-width": 2, // Remove the outline by setting the stroke width to 0
+        "circle-stroke-width": 1, // Remove the outline by setting the stroke width to 0
       },
     });
   } else if (layerList[value]["geometry"] == "Line") {
@@ -108,6 +138,25 @@ const addLayer = (map, dataset, layerList, sourcesDict, selectedCity, value, sel
       "source-layer": layerList[value]["layer_name"],
       paint: {
         "line-width": 2,
+        "line-color": [
+          "step",
+          ["get", selectedVar["name"]],
+          "#d73027",
+          selectedVar["breaks"][0],
+          "#f46d43",
+          selectedVar["breaks"][1],
+          "#fdae61",
+          selectedVar["breaks"][2],
+          "#fee090",
+          selectedVar["breaks"][3],
+          "#e0f3f8",
+          selectedVar["breaks"][4],
+          "#abd9e9",
+          selectedVar["breaks"][5],
+          "#74add1",
+          selectedVar["breaks"][6],
+          "#4575b4",
+        ],
       },
     });
   }
@@ -128,7 +177,9 @@ const VariablesSelectModule = () => {
     layerList,
     setlayerList,
     checked,
-    setChecked, sourcesDict, setsourcesDict
+    setChecked,
+    sourcesDict,
+    setsourcesDict,
   } = useContext(selectedLayerContext);
   const { map, mapContainer } = useContext(mapContext);
   const [data, setData] = useState([]);
@@ -141,7 +192,7 @@ const VariablesSelectModule = () => {
       const layerName = (selectedCity + value).replace(/\s/g, "");
       map.current.removeLayer(layerName);
     });
-    
+
     map.current.removeLayer("ClusterCloud");
 
     setChecked([]);
@@ -149,17 +200,49 @@ const VariablesSelectModule = () => {
     const newChecked = [];
 
     if (data[index]["domain"] == "buildings") {
-      addLayer(map, dataset, layerList, sourcesDict, selectedCity, "Buildings", data[index]);
-      newChecked.push("Buildings")
+      addLayer(
+        map,
+        dataset,
+        layerList,
+        sourcesDict,
+        selectedCity,
+        "Buildings",
+        data[index]
+      );
+      newChecked.push("Buildings");
     } else if (data[index]["domain"] == "tess") {
-      addLayer(map, dataset, layerList, sourcesDict, selectedCity, "Tesselation", data[index]);
-      newChecked.push("Tesselation")
+      addLayer(
+        map,
+        dataset,
+        layerList,
+        sourcesDict,
+        selectedCity,
+        "Tesselation",
+        data[index]
+      );
+      newChecked.push("Tesselation");
     } else if (data[index]["domain"] == "edges") {
-      addLayer(map, dataset, layerList, sourcesDict, selectedCity, "Road Network Edges", data[index]);
-      newChecked.push("Road Network Edges")
+      addLayer(
+        map,
+        dataset,
+        layerList,
+        sourcesDict,
+        selectedCity,
+        "Road Network Edges",
+        data[index]
+      );
+      newChecked.push("Road Network Edges");
     } else if (data[index]["domain"] == "nodes") {
-      addLayer(map, dataset, layerList, sourcesDict, selectedCity, "Road Network Nodes", data[index]);
-      newChecked.push("Road Network Nodes")
+      addLayer(
+        map,
+        dataset,
+        layerList,
+        sourcesDict,
+        selectedCity,
+        "Road Network Nodes",
+        data[index]
+      );
+      newChecked.push("Road Network Nodes");
     }
     setChecked(newChecked);
   };
