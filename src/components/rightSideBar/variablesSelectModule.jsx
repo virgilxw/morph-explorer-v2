@@ -2,8 +2,10 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import selectedCityContext from "../../contexts/selectedCityContext.jsx";
 import selectedLayerContext from "../../contexts/selectedLayerContext.jsx";
 import mapContext from "../../contexts/mapContext.jsx";
+import legendContext from "../../contexts/legendContext.jsx";
 import directory from "../../data/directory_v2.json";
 import ViolinPlot from "./ViolinShape.tsx";
+
 import {
   Card,
   CardContent,
@@ -51,6 +53,7 @@ const VarCard = ({ cardInfo, expanded, onExpandClick, isHighlighted }) => {
   );
 };
 
+
 const addLayer = (
   map,
   dataset,
@@ -70,36 +73,59 @@ const addLayer = (
   );
 
   if (layerList[value]["geometry"] == "Polygon") {
+    const fillColor = [
+      "step",
+      ["get", selectedVar["name"]],
+      "#d73027",
+      selectedVar["breaks"][0],
+      "#f46d43",
+      selectedVar["breaks"][1],
+      "#fdae61",
+      selectedVar["breaks"][2],
+      "#fee090",
+      selectedVar["breaks"][3],
+      "#e0f3f8",
+      selectedVar["breaks"][4],
+      "#abd9e9",
+      selectedVar["breaks"][5],
+      "#74add1",
+      selectedVar["breaks"][6],
+      "#4575b4",
+    ]
+
+    // setLegend(fillColor)
     map.current.addLayer({
       id: layerName,
       type: "fill",
       source: layerName,
       "source-layer": layerList[value]["layer_name"],
       paint: {
-        "fill-color": [
-          "step",
-          ["get", selectedVar["name"]],
-          "#d73027",
-          selectedVar["breaks"][0],
-          "#f46d43",
-          selectedVar["breaks"][1],
-          "#fdae61",
-          selectedVar["breaks"][2],
-          "#fee090",
-          selectedVar["breaks"][3],
-          "#e0f3f8",
-          selectedVar["breaks"][4],
-          "#abd9e9",
-          selectedVar["breaks"][5],
-          "#74add1",
-          selectedVar["breaks"][6],
-          "#4575b4",
-        ],
+        "fill-color": fillColor,
         "fill-opacity": 1,
         "fill-outline-color": "#000",
       },
     });
   } else if (layerList[value]["geometry"] == "Point") {
+    const fillColor = [
+      "step",
+      ["get", selectedVar["name"]],
+      "#d73027",
+      selectedVar["breaks"][0],
+      "#f46d43",
+      selectedVar["breaks"][1],
+      "#fdae61",
+      selectedVar["breaks"][2],
+      "#fee090",
+      selectedVar["breaks"][3],
+      "#e0f3f8",
+      selectedVar["breaks"][4],
+      "#abd9e9",
+      selectedVar["breaks"][5],
+      "#74add1",
+      selectedVar["breaks"][6],
+      "#4575b4",
+    ]
+    //setLegend(fillColor)
     map.current.addLayer({
       id: layerName,
       type: "circle",
@@ -107,56 +133,40 @@ const addLayer = (
       "source-layer": layerList[value]["layer_name"],
       paint: {
         "circle-radius": 2, // Set the radius to 2px
-        "circle-color": [
-          "step",
-          ["get", selectedVar["name"]],
-          "#d73027",
-          selectedVar["breaks"][0],
-          "#f46d43",
-          selectedVar["breaks"][1],
-          "#fdae61",
-          selectedVar["breaks"][2],
-          "#fee090",
-          selectedVar["breaks"][3],
-          "#e0f3f8",
-          selectedVar["breaks"][4],
-          "#abd9e9",
-          selectedVar["breaks"][5],
-          "#74add1",
-          selectedVar["breaks"][6],
-          "#4575b4",
-        ], // Set the color based on your dataset
+        "circle-color": fillColor, // Set the color based on your dataset
         "circle-opacity": 0.4, // Set the opacity to 0.4
         "circle-stroke-width": 1, // Remove the outline by setting the stroke width to 0
       },
     });
   } else if (layerList[value]["geometry"] == "Line") {
+    const fillColor = [
+      "step",
+      ["get", selectedVar["name"]],
+      "#d73027",
+      selectedVar["breaks"][0],
+      "#f46d43",
+      selectedVar["breaks"][1],
+      "#fdae61",
+      selectedVar["breaks"][2],
+      "#fee090",
+      selectedVar["breaks"][3],
+      "#e0f3f8",
+      selectedVar["breaks"][4],
+      "#abd9e9",
+      selectedVar["breaks"][5],
+      "#74add1",
+      selectedVar["breaks"][6],
+      "#4575b4",
+    ]
+    //setLegend(fillColor)
     map.current.addLayer({
       id: layerName,
       type: "line",
       source: layerName,
       "source-layer": layerList[value]["layer_name"],
-      paint: {
+      paint: { 
         "line-width": 2,
-        "line-color": [
-          "step",
-          ["get", selectedVar["name"]],
-          "#d73027",
-          selectedVar["breaks"][0],
-          "#f46d43",
-          selectedVar["breaks"][1],
-          "#fdae61",
-          selectedVar["breaks"][2],
-          "#fee090",
-          selectedVar["breaks"][3],
-          "#e0f3f8",
-          selectedVar["breaks"][4],
-          "#abd9e9",
-          selectedVar["breaks"][5],
-          "#74add1",
-          selectedVar["breaks"][6],
-          "#4575b4",
-        ],
+        "line-color": fillColor,
       },
     });
   }

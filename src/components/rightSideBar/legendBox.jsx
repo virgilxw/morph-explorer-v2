@@ -9,6 +9,8 @@ const Legendbox = ({ showDendogram, setShowDendogram }) => {
     // Ensure legend is properly set in the context whenever it changes
     setLegend(legend);
 
+    console.log(legend);
+
     if (!legend) return;
     const legend_temp = legend.slice(2);
     legend_temp.unshift(0);
