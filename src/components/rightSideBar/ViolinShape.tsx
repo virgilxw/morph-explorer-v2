@@ -140,13 +140,17 @@ const ViolinPlot = ({ city_data, width, height, plotKey, targetValue }: ViolinPl
 
   useEffect(() => {
 
-    if (city_data  != undefined) {
-      const valueArray = city_data ;
+    if (city_data != undefined) {
+      const valueArray = city_data;
 
       if (valueArray != undefined) {
+        // Convert string array to number array
+        let numericArray = valueArray.map(Number);
+
         // Calculate the 0.05 and 0.95 percentiles
-        let p5 = quantile(valueArray.sort(), 0.05);
-        let p95 = quantile(valueArray, 0.95);
+        let p5 = quantile(numericArray.sort((a, b) => a - b), 0.05);
+        let p95 = quantile(numericArray, 0.95);
+
 
         if (p5 !== undefined && p95 !== undefined) {
 
