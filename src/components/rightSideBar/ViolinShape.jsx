@@ -1,14 +1,6 @@
 import * as d3 from "d3";
 import { scaleLinear, quantile } from 'd3';
-import React, { useState, useEffect, useRef } from "react";
-
-type VerticalViolinShapeProps = {
-  data: number[];
-  binNumber: number;
-  xScale: d3.ScaleLinear<number, number, never>;
-  height: number;
-  targetValue: number | number[] | null;
-};
+import React, { useState, useEffect } from "react";
 
 const ViolinShape = ({
   data,
@@ -16,7 +8,7 @@ const ViolinShape = ({
   height,
   binNumber,
   targetValue
-}: VerticalViolinShapeProps) => {
+}) => {
   const min = Math.min(...data);
   const max = Math.max(...data);
 
@@ -35,7 +27,7 @@ const ViolinShape = ({
     .range([0, height]);
 
   const areaBuilder = d3
-    .area<d3.Bin<number, number>>()
+    .area()
     .y0((d) => wScale(-d.length))
     .y1((d) => wScale(d.length))
     .x((d) => xScale(d.x0 || 0))
@@ -43,18 +35,15 @@ const ViolinShape = ({
 
   const areaPath = areaBuilder(bins);
 
-  const noTarget = (targetValue: number | number[] | null) => {
+  const noTarget = (targetValue) => {
     if (targetValue === null) {
-      return true
-    }
-
-    else if (Array.isArray(targetValue)) {
+      return true;
+    } else if (Array.isArray(targetValue)) {
       if (targetValue.some(item => item == null)) {
-        return true
+        return true;
       }
     }
-
-    return false
+    return false;
   }
 
   if (noTarget(targetValue)) {
@@ -69,7 +58,7 @@ const ViolinShape = ({
           strokeWidth={2}
         />
       </>
-    )
+    );
   } else if (Array.isArray(targetValue)) {
     return (
       <>
@@ -89,10 +78,18 @@ const ViolinShape = ({
           y2={height}
           stroke="red"
         />
-
-        <rect x={xScale(targetValue[0])} y={0} width={xScale(targetValue[2]) - xScale(targetValue[0])} height={height} fill="red" fillOpacity={0.1} strokeWidth={1} stroke="red" ></rect>
+        <rect
+          x={xScale(targetValue[0])}
+          y={0}
+          width={xScale(targetValue[2]) - xScale(targetValue[0])}
+          height={height}
+          fill="red"
+          fillOpacity={0.1}
+          strokeWidth={1}
+          stroke="red"
+        ></rect>
       </>
-    )
+    );
   }
 
   return (
@@ -120,40 +117,21 @@ const ViolinShape = ({
   );
 };
 
-type CityData = {
-  [key: string]: string[];
-};
-
-type ViolinPlotProps = {
-  city_data: CityData | null;
-  width: number;
-  height: number;
-  plotKey: string;
-  targetValue: number | null | number[];
-};
-
-const ViolinPlot = ({ city_data, width, height, plotKey, targetValue }: ViolinPlotProps) => {
-  // Render the ViolinPlot component using the provided data and xScale
-
-  const [data, setData] = useState<number[] | null>(null);
+const ViolinPlot = ({ city_data, width, height, plotKey, targetValue }) => {
+  const [data, setData] = useState(null);
   const [xScale, setXScale] = useState(() => scaleLinear());
 
   useEffect(() => {
-
-    if (city_data != undefined) {
+    if (city_data !== undefined) {
       const valueArray = city_data;
 
-      if (valueArray != undefined) {
-        // Convert string array to number array
+      if (valueArray !== undefined) {
         let numericArray = valueArray.map(Number);
 
-        // Calculate the 0.05 and 0.95 percentiles
         let p5 = quantile(numericArray.sort((a, b) => a - b), 0.05);
         let p95 = quantile(numericArray, 0.95);
 
-
         if (p5 !== undefined && p95 !== undefined) {
-
           const yS = scaleLinear().domain([p5, p95]).range([0, width * 0.8]);
 
           setData(valueArray);
@@ -161,7 +139,7 @@ const ViolinPlot = ({ city_data, width, height, plotKey, targetValue }: ViolinPl
         }
       }
     }
-  }, [city_data])
+  }, [city_data]);
 
   if (!data || !xScale) {
     return <div>Loading...</div>;
@@ -178,7 +156,7 @@ const ViolinPlot = ({ city_data, width, height, plotKey, targetValue }: ViolinPl
           targetValue={targetValue}
         />
       </g>
-    </svg >
+    </svg>
   );
 }
 

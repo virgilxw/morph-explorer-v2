@@ -4,7 +4,7 @@ import selectedLayerContext from "../../contexts/selectedLayerContext.jsx";
 import mapContext from "../../contexts/mapContext.jsx";
 import legendContext from "../../contexts/legendContext.jsx";
 import directory from "../../data/directory_v2.json";
-import ViolinPlot from "./ViolinShape.tsx";
+import ViolinPlot from "./ViolinShape.jsx";
 
 import {
   Card,
