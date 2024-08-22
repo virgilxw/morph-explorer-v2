@@ -53,8 +53,8 @@ const VarCard = ({ cardInfo, expanded, onExpandClick, isHighlighted }) => {
   );
 };
 
-
 const addLayer = (
+  setLegend,
   map,
   dataset,
   layerList,
@@ -66,33 +66,29 @@ const addLayer = (
   const subUrl = layerList[value]["subUrl"];
   const layerName = (selectedCity + value).replace(/\s/g, "");
 
-  console.log(
-    "%csrc/components/rightSideBar/variablesSelectModule.jsx:59 layerList[value]",
-    "color: white; background-color: #007acc;",
-    selectedVar["name"]
-  );
+  const fillColor = [
+    "step",
+    ["get", selectedVar["name"]],
+    "#d73027",
+    selectedVar["breaks"][0],
+    "#f46d43",
+    selectedVar["breaks"][1],
+    "#fdae61",
+    selectedVar["breaks"][2],
+    "#fee090",
+    selectedVar["breaks"][3],
+    "#e0f3f8",
+    selectedVar["breaks"][4],
+    "#abd9e9",
+    selectedVar["breaks"][5],
+    "#74add1",
+    selectedVar["breaks"][6],
+    "#4575b4",
+  ];
+
+  setLegend(fillColor);
 
   if (layerList[value]["geometry"] == "Polygon") {
-    const fillColor = [
-      "step",
-      ["get", selectedVar["name"]],
-      "#d73027",
-      selectedVar["breaks"][0],
-      "#f46d43",
-      selectedVar["breaks"][1],
-      "#fdae61",
-      selectedVar["breaks"][2],
-      "#fee090",
-      selectedVar["breaks"][3],
-      "#e0f3f8",
-      selectedVar["breaks"][4],
-      "#abd9e9",
-      selectedVar["breaks"][5],
-      "#74add1",
-      selectedVar["breaks"][6],
-      "#4575b4",
-    ]
-
     // setLegend(fillColor)
     map.current.addLayer({
       id: layerName,
@@ -106,25 +102,6 @@ const addLayer = (
       },
     });
   } else if (layerList[value]["geometry"] == "Point") {
-    const fillColor = [
-      "step",
-      ["get", selectedVar["name"]],
-      "#d73027",
-      selectedVar["breaks"][0],
-      "#f46d43",
-      selectedVar["breaks"][1],
-      "#fdae61",
-      selectedVar["breaks"][2],
-      "#fee090",
-      selectedVar["breaks"][3],
-      "#e0f3f8",
-      selectedVar["breaks"][4],
-      "#abd9e9",
-      selectedVar["breaks"][5],
-      "#74add1",
-      selectedVar["breaks"][6],
-      "#4575b4",
-    ]
     //setLegend(fillColor)
     map.current.addLayer({
       id: layerName,
@@ -139,32 +116,13 @@ const addLayer = (
       },
     });
   } else if (layerList[value]["geometry"] == "Line") {
-    const fillColor = [
-      "step",
-      ["get", selectedVar["name"]],
-      "#d73027",
-      selectedVar["breaks"][0],
-      "#f46d43",
-      selectedVar["breaks"][1],
-      "#fdae61",
-      selectedVar["breaks"][2],
-      "#fee090",
-      selectedVar["breaks"][3],
-      "#e0f3f8",
-      selectedVar["breaks"][4],
-      "#abd9e9",
-      selectedVar["breaks"][5],
-      "#74add1",
-      selectedVar["breaks"][6],
-      "#4575b4",
-    ]
     //setLegend(fillColor)
     map.current.addLayer({
       id: layerName,
       type: "line",
       source: layerName,
       "source-layer": layerList[value]["layer_name"],
-      paint: { 
+      paint: {
         "line-width": 2,
         "line-color": fillColor,
       },
@@ -195,8 +153,11 @@ const VariablesSelectModule = () => {
   const [data, setData] = useState([]);
   const [subUrl, setsubUrl] = useState(null);
 
+  const { legend, setLegend, defaultLegend, setDefaultLegend } = useContext(legendContext);
+
   const handleExpandClick = (index) => {
     setExpandedIndex(expandedIndex === index ? null : index); // Toggle the clicked card
+
 
     Object.keys(layerList).map((value) => {
       const layerName = (selectedCity + value).replace(/\s/g, "");
@@ -210,7 +171,8 @@ const VariablesSelectModule = () => {
     const newChecked = [];
 
     if (data[index]["domain"] == "buildings") {
-      addLayer(
+       addLayer(
+        setLegend,
         map,
         dataset,
         layerList,
@@ -222,6 +184,7 @@ const VariablesSelectModule = () => {
       newChecked.push("Buildings");
     } else if (data[index]["domain"] == "tess") {
       addLayer(
+        setLegend,
         map,
         dataset,
         layerList,
@@ -232,7 +195,8 @@ const VariablesSelectModule = () => {
       );
       newChecked.push("Tesselation");
     } else if (data[index]["domain"] == "edges") {
-      addLayer(
+       addLayer(
+        setLegend,
         map,
         dataset,
         layerList,
@@ -243,7 +207,8 @@ const VariablesSelectModule = () => {
       );
       newChecked.push("Road Network Edges");
     } else if (data[index]["domain"] == "nodes") {
-      addLayer(
+       addLayer(
+        setLegend,
         map,
         dataset,
         layerList,
@@ -255,6 +220,11 @@ const VariablesSelectModule = () => {
       newChecked.push("Road Network Nodes");
     }
     setChecked(newChecked);
+
+
+    if (expandedIndex === index) {
+      setLegend(defaultLegend)
+    }
   };
 
   useEffect(() => {

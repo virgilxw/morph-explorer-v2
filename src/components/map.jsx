@@ -17,7 +17,7 @@ export default function Map() {
   const [lat] = useState(55.861111);
   const [zoom] = useState(14);
   const [API_KEY] = useState(process.env.NEXT_PUBLIC_MAPTILER_API_KEY);
-  const { legend, setLegend } = useContext(legendContext);
+  const { legend, setLegend, defaultLegend, setDefaultLegend } = useContext(legendContext);
   const { selectedCity, setSelectedCity, dataset, setDataset } =
     useContext(selectedCityContext);
   const { selectedLayer, setSelectedLayer, activeLayers, setActiveLayers, activeModel, setActiveModel } = useContext(selectedLayerContext);
@@ -112,6 +112,7 @@ export default function Map() {
       }
 
       setLegend(dataset[subUrl]["style"]);
+      setDefaultLegend(dataset[subUrl]["style"])
       setSelectedDendogram(dataset[subUrl]["dendogram"]);
 
       setActiveModel(layerName); // Update activeModel state

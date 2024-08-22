@@ -2,14 +2,11 @@ import React, { useState, useEffect, useContext } from "react";
 import legendContext from "../../contexts/legendContext.jsx";
 
 const Legendbox = ({ showDendogram, setShowDendogram }) => {
-  const { legend, setLegend } = useContext(legendContext);
+  const { legend, setLegend, defaultLegend, setDefaultLegend } = useContext(legendContext);
   const [legendOutput, setLegendOutput] = useState([]);
 
   useEffect(() => {
     // Ensure legend is properly set in the context whenever it changes
-    setLegend(legend);
-
-    console.log(legend);
 
     if (!legend) return;
     const legend_temp = legend.slice(2);
@@ -21,7 +18,7 @@ const Legendbox = ({ showDendogram, setShowDendogram }) => {
         legend_temp.slice(i, i + 2),
       ]);
     }
-  }, [legend, setLegend]);
+  }, [legend]);
 
   return (
     <>

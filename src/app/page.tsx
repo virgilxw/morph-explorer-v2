@@ -20,6 +20,7 @@ const Page = () => {
   const [selectedDendogram, setSelectedDendogram] = useState(null);
   const [selectedCity, setSelectedCity] = useState("Glasgow");
   const [legend, setLegend] = useState(null);
+  const [defaultLegend, setDefaultLegend ] = useState(null);
   const [isViewportSmall, setIsViewportSmall] = useState(false);
   const [dataset, setDataset] = useState({});
   const [activeModel, setActiveModel] = useState(null);
@@ -58,7 +59,7 @@ const Page = () => {
         setlayerList, checked, setChecked, sourcesDict, setsourcesDict
       }}>
         <selectedDendogramContext.Provider value={{ selectedDendogram, setSelectedDendogram }}>
-          <legendContext.Provider value={{ legend, setLegend }}>
+          <legendContext.Provider value={{ legend, setLegend, defaultLegend, setDefaultLegend  }}>
             <mapContext.Provider value={{ map, mapContainer }}>
               <main className="flex flex-col min-h-screen">
                 <Navbar />
